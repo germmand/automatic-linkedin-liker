@@ -24,8 +24,8 @@ A script developed for a pilot proof of concept.
     
 4. The script works out of the box upon the chrome driver. You can get it from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
    Make sure to locate it in a place where your PATH can find it (e.g. `/usr/bin/`)
-  
-5. Finally, open `main.py` and set the credentials (i.e. `EMAIL` and `PASSWORD`). Also, remember to provide a recent activity page to scrap from (`PROFILE_ACTIVITY_URL`).
+
+5. Finally, open `main.py` and set the credentials (i.e. `EMAIL` and `PASSWORD`) and the `PROFILE_NAME` to evaluate latest posts from.
 
 And that's it! Now you can run the script as:
 

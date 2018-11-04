@@ -2,17 +2,18 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 from sys import exit
 
-# Account credentials.
+# Account credentials
 EMAIL = "<EMAIL>"
 PASSWORD = "<PASSWORD>"
 
 # URLs to work with
 LOGIN_URL = "https://www.linkedin.com/uas/login"
+SEARCHING_URL = "https://www.linkedin.com/search/results/all/?keywords={profile_name}&origin=GLOBAL_SEARCH_HEADER"
 
 # Person to like latest post from
 PROFILE_NAME = "Israel Kehat"
@@ -46,15 +47,15 @@ class LinkedInAccount(object):
 
     def search_profile(self, profile_name):
         print("Searching profile...")
-        search_field = self.driver.find_element(By.XPATH, "//input[@placeholder='Search']")
-        search_field.send_keys(profile_name + Keys.ENTER)
+        self.driver.get(SEARCHING_URL.format(profile_name=profile_name))
 
         try:
-            best_match = self.wait_and_get_component("(//a[@data-control-name='search_srp_result'])[1]", 15)
+            best_match = self.driver.find_element(By.XPATH, "(//a[@data-control-name='search_srp_result'])[1]")
             best_match.click()
             print("Navigating to profile...")
-        except TimeoutException as te:
-            print("The page took too much time to load...\n-- FINISHED --")
+        except NoSuchElementException as nse:
+            print("No profiles were found...\n-- FINISHED --")
+            sleep(3)
             self.driver.close()
             exit(0)
 
